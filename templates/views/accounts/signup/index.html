@@ -3,76 +3,9 @@
         <div class="column is-one-third">
             <div data-controller="glv" id="signup">
                 <div class="py-5">
-                    {{template "glv-error" .}}
+                    {{ template "glv-error" .}}
+                    {{ template "signup_container" .}}
                 </div>
-                <p class="title is-3 has-text-centered">Sign up with {{.app_name}}</p>
-                <form
-                        data-action="submit->account#submitSignupForm"
-                        method="POST">
-                    <div class="field">
-                        <label class="label">Name</label>
-                        <input data-account-target="name"
-                               data-action="blur->account#validateName"
-                               name="Name"
-                               class="input"
-                               type="text"
-                               placeholder="First Last"
-                               aria-label="Name" required>
-
-                    </div>
-                    <div class="field">
-                        <label class="label">Email</label>
-                        <input data-account-target="email"
-                               data-action="blur->account#validateEmail"
-                               name="Email"
-                               pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
-                               class="input"
-                               type="email"
-                               placeholder="your@email.com"
-                               aria-label="Email" required>
-
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Password</label>
-                        <input data-account-target="password"
-                               data-action="blur->account#validatePassword"
-                               name="Password"
-                               class="input"
-                               type="password"
-                               aria-label="Password" required>
-
-                    </div>
-                    <div class="field is-grouped">
-                        <div class="control is-expanded">
-                            <button class="button is-primary is-fullwidth"
-                                    type="submit">
-                                Sign up
-                            </button>
-                        </div>
-                        <div class="control is-expanded">
-                            <button class="button is-primary is-outlined is-fullwidth"
-                                    data-action="click->navigate#goto"
-                                    data-goto="/login"
-                                    type="button">
-                                Sign in
-                            </button>
-                        </div>
-                    </div>
-
-                    <hr>
-                    <div class="control is-expanded">
-                        <button class="button is-primary is-outlined is-fullwidth"
-                                data-action="click->navigate#goto"
-                                data-goto="/auth?provider=google"
-                                type="button">
-                        <span class="icon has-text-info">
-                          <i class="fab fa-google"></i>
-                        </span>
-                            <span>Sign in with Google</span>
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
