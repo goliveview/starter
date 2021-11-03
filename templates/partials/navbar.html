@@ -3,7 +3,7 @@
         <div class="navbar-brand px-4 py-2">
             <a class="navbar-item" href="/">
                 <!--                <img src="/static/images/logo.svg" alt="logo">-->
-                <strong>starter</strong>
+                <strong>goliveview-starter</strong>
             </a>
 
             <a role="button"
@@ -24,6 +24,23 @@
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
+                        {{if .is_logged_in}}
+                            <a class="button is-light"
+                               href="/app">
+                                App
+                            </a>
+                            <a class="button is-light"
+                               href="/account">
+                                Account
+                            </a>
+                        {{else }}
+                            <a class="button is-light" href="/login">
+                                Sign in
+                            </a>
+                            <a class="button is-light" href="/signup">
+                                Sign up
+                            </a>
+                        {{end}}
                     </div>
                 </div>
             </div>

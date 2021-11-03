@@ -6,59 +6,71 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"starter/views"
 	"strings"
 
 	glv "github.com/goliveview/controller"
 
-	rl "github.com/adnaan/renderlayout"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
+	//ctx := context.Background()
+	//cfg := config.Config{}
 
-	index, err := rl.New(
-		rl.Layout("index"),
-		rl.DisableCache(true),
-		rl.Debug(true),
-		rl.DefaultData(func(w http.ResponseWriter, r *http.Request) (rl.D, error) {
-			return rl.D{
-				"route":    r.URL.Path,
-				"app_name": "starter",
-			}, nil
-		}))
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	if err != nil {
-		log.Fatal(err)
-	}
+	// setup authn api
+	//authnConfig := authn.Config{
+	//	Driver:        cfg.Driver,
+	//	Datasource:    cfg.DataSource,
+	//	SessionSecret: cfg.SessionSecret,
+	//	SendMail:      config.SendEmailFunc(cfg),
+	//	GothProviders: []goth.Provider{
+	//		google.New(
+	//			cfg.GoogleClientID,
+	//			cfg.GoogleSecret,
+	//			fmt.Sprintf("%s/auth/callback?provider=google", cfg.Domain),
+	//			"email", "profile",
+	//		),
+	//	},
+	//}
+	//authnAPI := authn.New(ctx, authnConfig)
+	//log.Println(authnAPI)
 
 	r := chi.NewRouter()
 	r.Use(middleware.Compress(5))
 	r.Use(middleware.StripSlashes)
-	r.NotFound(index("404"))
-	//r.Get("/", index("home", rl.StaticData(rl.D{"hello": "world"})))
-	name := "starter"
+
+	name := "goliveview-starter"
+
 	glvc := glv.Websocket(&name,
 		glv.EnableHTMLFormatting(),
 		glv.DisableTemplateCache(),
 		glv.EnableDebugLog(),
 		glv.EnableWatch(),
 	)
+	r.NotFound(glvc.NewView("./templates/404.html",
+		glv.WithLayout("./templates/layouts/error.html")))
 	r.Handle("/", glvc.NewView(
 		"./templates/views/landing",
-		glv.WithLayout("./templates/layouts/landing.html")))
+		glv.WithLayout("./templates/layouts/landing.html"),
+		glv.WithViewHandler(&views.HandlerLandingView{})))
+	r.Handle("/signup", glvc.NewView(
+		"./templates/views/accounts/signup",
+		glv.WithLayout("./templates/layouts/landing.html"),
+		glv.WithViewHandler(&views.HandlerSignupView{})))
+	r.Handle("/login", glvc.NewView(
+		"./templates/views/accounts/login",
+		glv.WithLayout("./templates/layouts/landing.html"),
+		glv.WithViewHandler(&views.HandlerLoginView{})))
 
 	workDir, _ := os.Getwd()
 	public := http.Dir(filepath.Join(workDir, "./", "public", "assets"))
 	staticHandler(r, "/static", public)
 
 	fmt.Println("listening on http://localhost:4000")
-	err = http.ListenAndServe(":4000", r)
+	err := http.ListenAndServe(":4000", r)
 	if err != nil {
 		log.Fatal(err)
 	}
