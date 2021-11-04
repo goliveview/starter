@@ -74,7 +74,9 @@ func main() {
 
 	r.NotFound(glvc.NewView("./templates/404.html",
 		glv.WithLayout("./templates/layouts/error.html")))
+
 	landingLayout := glv.WithLayout("./templates/layouts/landing.html")
+
 	r.Handle("/", glvc.NewView(
 		"./templates/views/landing",
 		landingLayout,
@@ -85,14 +87,15 @@ func main() {
 		landingLayout,
 		glv.WithViewHandler(&views.HandlerSignupView{Auth: authnAPI})))
 
-	r.Handle("/confirm/{token}", glvc.NewView(
-		"./templates/views/accounts/confirm",
-		landingLayout,
-		glv.WithViewHandler(&views.HandlerConfirmView{Auth: authnAPI})))
+	r.Handle("/confirm/{token}",
+		glvc.NewView("./templates/views/accounts/confirm", landingLayout,
+			glv.WithViewHandler(&views.HandlerConfirmView{Auth: authnAPI})))
 
-	r.Handle("/login", glvc.NewView(
-		"./templates/views/accounts/login", landingLayout,
-		glv.WithViewHandler(&views.HandlerLoginView{Auth: authnAPI})))
+	loginView := &views.HandlerLoginView{Auth: authnAPI}
+	r.Handle("/login", glvc.NewView("./templates/views/accounts/login",
+		landingLayout,
+		glv.WithOnPost(loginView.OnPost),
+		glv.WithViewHandler(loginView)))
 
 	// setup static assets handler
 	workDir, _ := os.Getwd()
