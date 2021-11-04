@@ -1,6 +1,7 @@
 {{ define "signup_form"}}
     <div id="signup_form">
         <p class="title is-3 has-text-centered">Sign up with {{.app_name}}</p>
+        {{ template "loading_modal" .}}
         <form data-action="glv#submit"
               data-glv-event-id-param="auth/signup">
             <div class="field">
@@ -49,7 +50,8 @@
 
             <hr>
             <div class="control is-expanded">
-                <button class="button is-primary is-outlined is-fullwidth"
+                <button id="signup-btn"
+                        class="button is-primary is-outlined is-fullwidth"
                         data-action="glv#navigate"
                         data-glv-route-param="/auth?provider=google"
                         type="button">

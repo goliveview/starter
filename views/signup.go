@@ -38,6 +38,10 @@ type SignupRequest struct {
 }
 
 func (h *HandlerSignupView) Signup(ctx glv.Context) error {
+	ctx.DOM().AddClass("#loading-modal", "is-active")
+	defer func() {
+		ctx.DOM().RemoveClass("#loading-modal", "is-active")
+	}()
 	r := new(SignupRequest)
 	if err := ctx.Event().DecodeParams(r); err != nil {
 		return err
@@ -57,6 +61,7 @@ func (h *HandlerSignupView) Signup(ctx glv.Context) error {
 		"is_logged_in":      false,
 		"sent_confirmation": true,
 	})
+	//
 
 	return nil
 }
