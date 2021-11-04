@@ -6,6 +6,7 @@ replace github.com/goliveview/controller => ../controller
 
 require (
 	github.com/adnaan/authn v0.0.2
+	github.com/davecgh/go-spew v1.1.1
 	github.com/go-chi/chi v1.5.4
 	github.com/goliveview/controller v0.0.0-20211031063412-9ad2c2904723
 	github.com/imdario/mergo v0.3.12 // indirect
@@ -28,7 +29,6 @@ require (
 	github.com/PuerkitoBio/goquery v1.5.0 // indirect
 	github.com/alecthomas/chroma v0.9.4 // indirect
 	github.com/andybalholm/cascadia v1.0.0 // indirect
-	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dlclark/regexp2 v1.4.0 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect

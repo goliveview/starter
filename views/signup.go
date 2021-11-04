@@ -49,10 +49,10 @@ func (h *HandlerSignupView) Signup(ctx glv.Context) error {
 	if r.Password == "" {
 		return fmt.Errorf("%w", errors.New("password is required"))
 	}
-	//
-	//if err := h.Auth.Signup(ctx.RequestContext(), r.Email, r.Password, nil); err != nil {
-	//	return err
-	//}
+
+	if err := h.Auth.Signup(ctx.RequestContext(), r.Email, r.Password, nil); err != nil {
+		return err
+	}
 	ctx.DOM().Morph("#signup_container", "signup_container", glv.M{
 		"is_logged_in":      false,
 		"sent_confirmation": true,

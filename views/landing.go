@@ -22,8 +22,5 @@ func (h *HandlerLandingView) EventHandler(ctx glv.Context) error {
 }
 
 func (h *HandlerLandingView) OnMount(r *http.Request) (int, glv.M) {
-
-	return 200, glv.M{
-		"is_logged_in": false,
-	}
+	return 200, glv.M{}
 }
