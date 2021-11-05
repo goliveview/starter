@@ -22,5 +22,14 @@ func (h *HandlerLandingView) EventHandler(ctx glv.Context) error {
 }
 
 func (h *HandlerLandingView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
-	return 200, glv.M{}
+	if r.Method != "GET" {
+		return 405, nil
+	}
+	if _, err := h.Auth.CurrentAccount(r); err != nil {
+		return 200, nil
+	}
+
+	return 200, glv.M{
+		"is_logged_in": true,
+	}
 }
