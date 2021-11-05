@@ -109,6 +109,15 @@ func main() {
 		acc.Logout(w, r)
 	})
 
+	r.Handle("/forgot", glvc.NewView(
+		"./templates/views/accounts/forgot",
+		landingLayout,
+		glv.WithViewHandler(&accounts.HandlerForgotView{Auth: authnAPI})))
+	r.Handle("/reset/{token}", glvc.NewView(
+		"./templates/views/accounts/reset",
+		landingLayout,
+		glv.WithViewHandler(&accounts.HandlerResetView{Auth: authnAPI})))
+
 	r.Route("/account", func(r chi.Router) {
 		r.Use(authnAPI.IsAuthenticated)
 		r.Handle("/", glvc.NewView(
