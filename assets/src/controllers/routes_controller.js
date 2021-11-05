@@ -15,7 +15,6 @@ export default class extends Controller {
                     href = href.split("#")[0];
                 }
                 let r = p.exec(href);
-                console.log("==> ",el.href,href, r)
                 if (r) {
                     el.classList.add(this.activeClassValue)
                 } else {

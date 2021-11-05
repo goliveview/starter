@@ -114,6 +114,9 @@ func main() {
 		r.Handle("/", glvc.NewView(
 			"./templates/views/accounts/settings",
 			glv.WithViewHandler(&accounts.HandlerSettingsView{Auth: authnAPI})))
+		r.Handle("/email/change/{token}",
+			glvc.NewView("./templates/views/accounts/confirm_email_change", landingLayout,
+				glv.WithViewHandler(&accounts.HandlerConfirmEmailChangeView{Auth: authnAPI})))
 	})
 
 	// setup static assets handler

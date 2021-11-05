@@ -26,9 +26,14 @@ func (h *HandlerSignupView) EventHandler(ctx glv.Context) error {
 }
 
 func (h *HandlerSignupView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
+	if _, err := h.Auth.CurrentAccount(r); err != nil {
+		return 200, glv.M{
+			"is_logged_in": false,
+		}
+	}
+
 	return 200, glv.M{
-		"is_logged_in":      false,
-		"sent_confirmation": false,
+		"is_logged_in": true,
 	}
 }
 

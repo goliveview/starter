@@ -47,7 +47,7 @@ func (h *HandlerSettingsView) OnMount(w http.ResponseWriter, r *http.Request) (i
 }
 
 func (h *HandlerSettingsView) UpdateProfile(ctx glv.Context) error {
-	userID, _ := ctx.RequestContext().Value(authn.AccountIDKey).(string)
+
 	ctx.DOM().RemoveClass("#profile-loading", "is-hidden")
 	defer func() {
 		ctx.DOM().AddClass("#profile-loading", "is-hidden")
@@ -56,7 +56,7 @@ func (h *HandlerSettingsView) UpdateProfile(ctx glv.Context) error {
 	if err := ctx.Event().DecodeParams(r); err != nil {
 		return err
 	}
-
+	userID, _ := ctx.RequestContext().Value(authn.AccountIDKey).(string)
 	acc, err := h.Auth.GetAccount(ctx.RequestContext(), userID)
 	if err != nil {
 		return err

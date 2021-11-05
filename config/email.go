@@ -47,7 +47,7 @@ func SendEmailFunc(cfg Config) authn.SendMailFunc {
 			emailTmpl = recovery(appName, name, fmt.Sprintf("%s/reset/%s", cfg.Domain, token))
 		case authn.ChangeEmail:
 			subject = fmt.Sprintf("Change email on %s", appName)
-			emailTmpl = changeEmail(appName, name, fmt.Sprintf("%s/change/%s", cfg.Domain, token))
+			emailTmpl = changeEmail(appName, name, fmt.Sprintf("%s/account/email/change/%s", cfg.Domain, token))
 		case authn.Passwordless:
 			subject = fmt.Sprintf("Magic link to log into %s", appName)
 			emailTmpl = magic(appName, name, fmt.Sprintf("%s/magic-login/%s", cfg.Domain, token))

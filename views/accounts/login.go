@@ -33,7 +33,14 @@ func (h *HandlerLoginView) OnMount(w http.ResponseWriter, r *http.Request) (int,
 	if r.Method == "POST" {
 		return h.LoginSubmit(w, r)
 	}
-	return 200, glv.M{}
+
+	if _, err := h.Auth.CurrentAccount(r); err != nil {
+		return 200, nil
+	}
+
+	return 200, glv.M{
+		"is_logged_in": true,
+	}
 }
 
 func (h *HandlerLoginView) LoginSubmit(w http.ResponseWriter, r *http.Request) (int, glv.M) {
