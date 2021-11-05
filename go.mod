@@ -3,6 +3,7 @@ module starter
 go 1.17
 
 replace github.com/goliveview/controller => ../controller
+replace github.com/adnaan/authn => ../../authn
 
 require (
 	github.com/adnaan/authn v0.0.2

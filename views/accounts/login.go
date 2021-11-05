@@ -83,7 +83,7 @@ func (h *HandlerLoginView) LoginSubmit(w http.ResponseWriter, r *http.Request) (
 }
 
 func (h *HandlerLoginView) MagicLogin(ctx glv.Context) error {
-	r := new(AuthRequest)
+	r := new(ProfileRequest)
 	if err := ctx.Event().DecodeParams(r); err != nil {
 		return err
 	}

@@ -32,7 +32,8 @@ func (h *HandlerSignupView) OnMount(w http.ResponseWriter, r *http.Request) (int
 	}
 }
 
-type AuthRequest struct {
+type ProfileRequest struct {
+	Name     string `json:"name"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
@@ -42,7 +43,7 @@ func (h *HandlerSignupView) Signup(ctx glv.Context) error {
 	defer func() {
 		ctx.DOM().RemoveClass("#loading-modal", "is-active")
 	}()
-	r := new(AuthRequest)
+	r := new(ProfileRequest)
 	if err := ctx.Event().DecodeParams(r); err != nil {
 		return err
 	}
@@ -54,7 +55,10 @@ func (h *HandlerSignupView) Signup(ctx glv.Context) error {
 		return fmt.Errorf("%w", errors.New("password is required"))
 	}
 
-	if err := h.Auth.Signup(ctx.RequestContext(), r.Email, r.Password, nil); err != nil {
+	attributes := make(map[string]interface{})
+	attributes["name"] = r.Name
+
+	if err := h.Auth.Signup(ctx.RequestContext(), r.Email, r.Password, attributes); err != nil {
 		return err
 	}
 	ctx.DOM().Morph("#signup_container", "signup_container", glv.M{

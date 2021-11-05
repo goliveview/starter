@@ -9,26 +9,9 @@
       data-action="keydown@window->util#keyDown "
       data-util-active-class="is-active">
 {{template "navbar" .}}
-<div class=" my-5">
-    <div class="columns ml-1">
-        <div class="column is-2">
-            <aside class="menu">
-                <ul class="menu-list">
-                    <li><a data-routes-target="route"
-                           class="has-text-weight-semibold"
-                           href="/forms">Forms</a></li>
-                    <li><a data-routes-target="route"
-                           href="/submissions">Submissions</a></li>
-                </ul>
-            </aside>
-        </div>
-        <div class="column is-10">
-            <div class="h-full">
-                {{template "glv-error" .}}
-                {{template "content" .}}
-            </div>
-        </div>
-    </div>
+<div class="h-full mt-6">
+    {{template "glv-error" .}}
+    {{template "content" .}}
 </div>
 {{template "footer" .}}
 </body>

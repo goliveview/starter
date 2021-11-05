@@ -95,9 +95,26 @@ func main() {
 		landingLayout,
 		glv.WithViewHandler(&accounts.HandlerLoginView{Auth: authnAPI})))
 
-	r.Handle("/magic-login/{token}", glvc.NewView("./templates/views/accounts/confirm_magic",
-		landingLayout,
-		glv.WithViewHandler(&accounts.HandlerConfirmMagicView{Auth: authnAPI})))
+	r.Handle("/magic-login/{token}",
+		glvc.NewView("./templates/views/accounts/confirm_magic",
+			landingLayout,
+			glv.WithViewHandler(&accounts.HandlerConfirmMagicView{Auth: authnAPI})))
+
+	r.Get("/logout", func(w http.ResponseWriter, r *http.Request) {
+		acc, err := authnAPI.CurrentAccount(r)
+		if err != nil {
+			log.Println("err logging out ", err)
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+		}
+		acc.Logout(w, r)
+	})
+
+	r.Route("/account", func(r chi.Router) {
+		r.Use(authnAPI.IsAuthenticated)
+		r.Handle("/", glvc.NewView(
+			"./templates/views/accounts/settings",
+			glv.WithViewHandler(&accounts.HandlerSettingsView{Auth: authnAPI})))
+	})
 
 	// setup static assets handler
 	workDir, _ := os.Getwd()
