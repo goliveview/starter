@@ -1,4 +1,4 @@
-package views
+package accounts
 
 import (
 	"errors"
@@ -29,11 +29,14 @@ func (h *HandlerLoginView) EventHandler(ctx glv.Context) error {
 	return nil
 }
 
-func (h *HandlerLoginView) OnMount(r *http.Request) (int, glv.M) {
+func (h *HandlerLoginView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
+	if r.Method == "POST" {
+		return h.LoginSubmit(w, r)
+	}
 	return 200, glv.M{}
 }
 
-func (h *HandlerLoginView) OnPost(w http.ResponseWriter, r *http.Request) (int, glv.M) {
+func (h *HandlerLoginView) LoginSubmit(w http.ResponseWriter, r *http.Request) (int, glv.M) {
 	var email, password string
 	_ = r.ParseForm()
 	for k, v := range r.Form {
@@ -90,5 +93,6 @@ func (h *HandlerLoginView) MagicLogin(ctx glv.Context) error {
 	if err := h.Auth.SendPasswordlessToken(ctx.RequestContext(), r.Email); err != nil {
 		return err
 	}
+	ctx.DOM().Morph("#signin_container", "signin_container", glv.M{"sent_magic_link": true})
 	return nil
 }

@@ -9,7 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"starter/config"
-	"starter/views"
+	"starter/views/accounts"
 	"strings"
 
 	"github.com/davecgh/go-spew/spew"
@@ -80,22 +80,24 @@ func main() {
 	r.Handle("/", glvc.NewView(
 		"./templates/views/landing",
 		landingLayout,
-		glv.WithViewHandler(&views.HandlerLandingView{Auth: authnAPI})))
+		glv.WithViewHandler(&accounts.HandlerLandingView{Auth: authnAPI})))
 
 	r.Handle("/signup", glvc.NewView(
 		"./templates/views/accounts/signup",
 		landingLayout,
-		glv.WithViewHandler(&views.HandlerSignupView{Auth: authnAPI})))
+		glv.WithViewHandler(&accounts.HandlerSignupView{Auth: authnAPI})))
 
 	r.Handle("/confirm/{token}",
 		glvc.NewView("./templates/views/accounts/confirm", landingLayout,
-			glv.WithViewHandler(&views.HandlerConfirmView{Auth: authnAPI})))
+			glv.WithViewHandler(&accounts.HandlerConfirmView{Auth: authnAPI})))
 
-	loginView := &views.HandlerLoginView{Auth: authnAPI}
 	r.Handle("/login", glvc.NewView("./templates/views/accounts/login",
 		landingLayout,
-		glv.WithOnPost(loginView.OnPost),
-		glv.WithViewHandler(loginView)))
+		glv.WithViewHandler(&accounts.HandlerLoginView{Auth: authnAPI})))
+
+	r.Handle("/magic-login/{token}", glvc.NewView("./templates/views/accounts/confirm_magic",
+		landingLayout,
+		glv.WithViewHandler(&accounts.HandlerConfirmMagicView{Auth: authnAPI})))
 
 	// setup static assets handler
 	workDir, _ := os.Getwd()

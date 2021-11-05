@@ -1,4 +1,4 @@
-package views
+package accounts
 
 import (
 	"errors"
@@ -25,7 +25,7 @@ func (h *HandlerSignupView) EventHandler(ctx glv.Context) error {
 	return nil
 }
 
-func (h *HandlerSignupView) OnMount(r *http.Request) (int, glv.M) {
+func (h *HandlerSignupView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
 	return 200, glv.M{
 		"is_logged_in":      false,
 		"sent_confirmation": false,

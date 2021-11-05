@@ -1,4 +1,4 @@
-package views
+package accounts
 
 import (
 	"log"
@@ -23,7 +23,7 @@ func (h *HandlerConfirmView) EventHandler(ctx glv.Context) error {
 	return nil
 }
 
-func (h *HandlerConfirmView) OnMount(r *http.Request) (int, glv.M) {
+func (h *HandlerConfirmView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
 	token := chi.URLParam(r, "token")
 	err := h.Auth.ConfirmSignupEmail(r.Context(), token)
 	if err != nil {

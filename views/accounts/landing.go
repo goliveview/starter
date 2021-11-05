@@ -1,4 +1,4 @@
-package views
+package accounts
 
 import (
 	"log"
@@ -21,6 +21,6 @@ func (h *HandlerLandingView) EventHandler(ctx glv.Context) error {
 	return nil
 }
 
-func (h *HandlerLandingView) OnMount(r *http.Request) (int, glv.M) {
+func (h *HandlerLandingView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
 	return 200, glv.M{}
 }
