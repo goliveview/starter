@@ -17,6 +17,8 @@ func (h *HandlerSettingsView) EventHandler(ctx glv.Context) error {
 	switch ctx.Event().ID {
 	case "account/update":
 		return h.UpdateProfile(ctx)
+	case "account/delete":
+		return h.DeleteAccount(ctx)
 	default:
 		log.Printf("warning:handler not found for event => \n %+v\n", ctx.Event())
 	}
@@ -73,5 +75,18 @@ func (h *HandlerSettingsView) UpdateProfile(ctx glv.Context) error {
 		ctx.DOM().RemoveClass("#change_email", "is-hidden")
 	}
 
+	return nil
+}
+
+func (h *HandlerSettingsView) DeleteAccount(ctx glv.Context) error {
+	userID, _ := ctx.RequestContext().Value(authn.AccountIDKey).(string)
+	acc, err := h.Auth.GetAccount(ctx.RequestContext(), userID)
+	if err != nil {
+		return err
+	}
+	if err := acc.Delete(ctx.RequestContext()); err != nil {
+		return err
+	}
+	ctx.DOM().Reload()
 	return nil
 }

@@ -68,23 +68,24 @@
         <hr/>
         <p>All data related to your account will be completely removed and unrecoverable.</p>
         <button class="button is-danger mt-5"
-                data-modal-target-id="deleteAccount"
-                data-action="click->navigate#openModal">
+                data-emitter-event-id-param="modal"
+                data-emitter-modal-id-param="deleteAccount"
+                data-action="click->emitter#event">
             Delete your account
         </button>
         <div class="modal"
              id="deleteAccount"
-             data-navigate-target="modal">
+             data-controller="modal"
+             data-modal-id-value="deleteAccount"
+             data-action="emitter:modal@window->modal#open keydown@window->modal#keyDown click@window->modal#keyDown">
             <div class="modal-background"></div>
             <div class="modal-card">
-                <form action="/account/delete" method="POST">
-                    <input type="hidden" name="FormToken" value="{{.form_token}}">
+                <form data-action="glv#submit" data-glv-event-id-param="account/delete">
                     <header class="modal-card-head">
                         <p class="modal-card-title">Are you sure ?</p>
                         <button class="delete"
-                                data-modal-target-id="deleteAccount"
-                                data-action="click->navigate#closeModal"
-                                aria-label="close">
+                                aria-label="close"
+                                data-action="click->modal#close">
                         </button>
                     </header>
                     <section class="modal-card-body">
@@ -95,8 +96,9 @@
                     <footer class="modal-card-foot is-justify-content-flex-end">
                         <button class="button is-danger" type="submit">Yes</button>
                         <button class="button"
-                                data-modal-target-id="deleteAccount"
-                                data-action="click->navigate#closeModal">
+                                type="button"
+                                aria-label="close"
+                                data-action="click->modal#close">
                             Cancel
                         </button>
                     </footer>
