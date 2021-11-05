@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"starter/config"
 	"starter/views/accounts"
+	"starter/views/app"
 	"strings"
 
 	"github.com/davecgh/go-spew/spew"
@@ -126,6 +127,13 @@ func main() {
 		r.Handle("/email/change/{token}",
 			glvc.NewView("./templates/views/accounts/confirm_email_change", landingLayout,
 				glv.WithViewHandler(&accounts.HandlerConfirmEmailChangeView{Auth: authnAPI})))
+	})
+
+	r.Route("/app", func(r chi.Router) {
+		r.Use(authnAPI.IsAuthenticated)
+		r.Handle("/", glvc.NewView(
+			"./templates/views/app",
+			glv.WithViewHandler(&app.HandlerDashboardView{Auth: authnAPI})))
 	})
 
 	// setup static assets handler
