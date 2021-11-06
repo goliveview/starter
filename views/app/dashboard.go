@@ -21,5 +21,7 @@ func (h *HandlerDashboardView) EventHandler(ctx glv.Context) error {
 }
 
 func (h *HandlerDashboardView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
-	return 200, nil
+	return 200, glv.M{
+		"is_logged_in": true,
+	}
 }
