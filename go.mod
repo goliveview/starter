@@ -1,4 +1,4 @@
-module starter
+module goliveview-starter
 
 go 1.17
 
