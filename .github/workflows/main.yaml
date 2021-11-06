@@ -19,6 +19,8 @@ jobs:
             FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - uses: superfly/flyctl-actions@1.1
         with:
+          env:
+            FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           args: |
             secrets set \
             APP_GOOGLE_CLIENT_ID=${{ secrets.APP_GOOGLE_CLIENT_ID }} \
@@ -29,5 +31,3 @@ jobs:
             APP_SMTP_PASS=${{ secrets.APP_GOOGLE_SECRET }} \
             APP_SMTP_ADMIN_EMAIL=${{ secrets.APP_GOOGLE_SECRET }} \
             APP_API_MASTER_SECRET=${{ secrets.APP_GOOGLE_SECRET }}
-          env:
-            FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
