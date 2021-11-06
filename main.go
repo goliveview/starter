@@ -101,6 +101,38 @@ func main() {
 			landingLayout,
 			glv.WithViewHandler(&accounts.HandlerConfirmMagicView{Auth: authnAPI})))
 
+	r.Get("/auth", func(w http.ResponseWriter, r *http.Request) {
+		err := authnAPI.LoginWithProvider(w, r)
+		if err != nil {
+			log.Printf("LoginWithProvider err %v\n", err)
+			http.Error(w, "not found", 404)
+			return
+		}
+		redirectTo := "/app"
+		from := r.URL.Query().Get("from")
+		if from != "" {
+			redirectTo = from
+		}
+
+		http.Redirect(w, r, redirectTo, http.StatusSeeOther)
+	})
+
+	r.Get("/auth/callback", func(w http.ResponseWriter, r *http.Request) {
+		err := authnAPI.LoginProviderCallback(w, r, nil)
+		if err != nil {
+			log.Printf("LoginProviderCallback err %v\n", err)
+			http.Error(w, "not found", 404)
+			return
+		}
+		redirectTo := "/app"
+		from := r.URL.Query().Get("from")
+		if from != "" {
+			redirectTo = from
+		}
+
+		http.Redirect(w, r, redirectTo, http.StatusSeeOther)
+	})
+
 	r.Get("/logout", func(w http.ResponseWriter, r *http.Request) {
 		acc, err := authnAPI.CurrentAccount(r)
 		if err != nil {
@@ -141,8 +173,8 @@ func main() {
 	public := http.Dir(filepath.Join(workDir, "./", "public", "assets"))
 	staticHandler(r, "/static", public)
 
-	fmt.Println("listening on http://localhost:4000")
-	err = http.ListenAndServe(":4000", r)
+	fmt.Printf("listening on http://localhost:%d\n", cfg.Port)
+	err = http.ListenAndServe(fmt.Sprintf(":%d", cfg.Port), r)
 	if err != nil {
 		log.Fatal(err)
 	}

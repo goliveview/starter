@@ -11,7 +11,7 @@ type Config struct {
 	// app
 	Name             string `json:"name" default:"goliveview-starter"`
 	Domain           string `json:"domain" default:"https://goliveview-starter.xyz"`
-	Port             int    `json:"port" default:"4000"`
+	Port             int    `json:"port" default:"8080"`
 	HealthPath       string `json:"health_path" envconfig:"health_path" default:"/healthz"`
 	ReadTimeoutSecs  int    `json:"read_timeout_secs" envconfig:"read_timeout_secs" default:"5"`
 	WriteTimeoutSecs int    `json:"write_timeout_secs" envconfig:"write_timeout_secs" default:"10"`
