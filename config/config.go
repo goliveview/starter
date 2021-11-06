@@ -54,6 +54,9 @@ func loadEnvironment(filename string) error {
 	var err error
 	if filename != "" {
 		err = godotenv.Load(filename)
+		if os.IsNotExist(err) {
+			return nil
+		}
 	} else {
 		err = godotenv.Load()
 		// handle if .env file does not exist, this is OK
