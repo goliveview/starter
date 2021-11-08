@@ -30,4 +30,4 @@ jobs:
             APP_SMTP_USER=${{ secrets.APP_SMTP_USER }} \
             APP_SMTP_PASS=${{ secrets.APP_SMTP_PASS }} \
             APP_SMTP_ADMIN_EMAIL=${{ secrets.APP_SMTP_ADMIN_EMAIL }} \
-            APP_API_MASTER_SECRET=${{ secrets.APP_API_MASTER_SECRET }}
+            APP_API_MASTER_SECRET=${{ secrets.APP_API_MASTER_SECRET }} || true
