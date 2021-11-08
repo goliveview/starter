@@ -173,6 +173,11 @@ func main() {
 	public := http.Dir(filepath.Join(workDir, "./", "public", "assets"))
 	staticHandler(r, "/static", public)
 
+	// others
+	staticFileHandler(r, "/robots.txt", filepath.Join(workDir, "./", "public", "robots.txt"))
+	staticFileHandler(r, "/favicon.ico", filepath.Join(workDir, "./", "public", "favicon.ico"))
+
+	// server
 	fmt.Printf("listening on http://localhost:%d\n", cfg.Port)
 	err = http.ListenAndServe(fmt.Sprintf(":%d", cfg.Port), r)
 	if err != nil {
@@ -196,5 +201,11 @@ func staticHandler(r chi.Router, path string, root http.FileSystem) {
 		pathPrefix := strings.TrimSuffix(rctx.RoutePattern(), "/*")
 		fs := http.StripPrefix(pathPrefix, http.FileServer(root))
 		fs.ServeHTTP(w, r)
+	})
+}
+
+func staticFileHandler(r chi.Router, pattern string, filename string) {
+	r.HandleFunc(pattern, func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, filename)
 	})
 }
