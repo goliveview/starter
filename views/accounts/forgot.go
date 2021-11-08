@@ -41,6 +41,7 @@ func (f *ForgotView) SendRecovery(ctx glv.Context) error {
 		return err
 	}
 
+	ctx.DOM().AddClass("#input_email", "is-hidden")
 	ctx.DOM().RemoveClass("#recovery_sent", "is-hidden")
 	return nil
 }

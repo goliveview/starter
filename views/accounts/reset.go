@@ -60,6 +60,7 @@ func (rv *ResetView) Reset(ctx glv.Context) error {
 	if err := rv.Auth.ConfirmRecovery(ctx.RequestContext(), r.Token, r.Password); err != nil {
 		return err
 	}
+	ctx.DOM().AddClass("#new_password", "is-hidden")
 	ctx.DOM().RemoveClass("#password_reset", "is-hidden")
 	return nil
 }
