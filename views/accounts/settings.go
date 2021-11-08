@@ -3,6 +3,7 @@ package accounts
 import (
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/adnaan/authn"
 
@@ -52,6 +53,7 @@ func (h *HandlerSettingsView) UpdateProfile(ctx glv.Context) error {
 
 	ctx.DOM().RemoveClass("#profile-loading", "is-hidden")
 	defer func() {
+		time.Sleep(1 * time.Second)
 		ctx.DOM().AddClass("#profile-loading", "is-hidden")
 	}()
 	r := new(ProfileRequest)
