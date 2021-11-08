@@ -75,7 +75,7 @@ func (h *HandlerLoginView) LoginSubmit(w http.ResponseWriter, r *http.Request) (
 	}
 	if err := h.Auth.Login(w, r, email, password); err != nil {
 		return 200, glv.M{
-			"error": err.Error(),
+			"error": glv.UserError(err),
 		}
 	}
 	redirectTo := "/app"

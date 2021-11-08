@@ -2,7 +2,7 @@ module goliveview-starter
 
 go 1.17
 
-//replace github.com/goliveview/controller => ../controller
+replace github.com/goliveview/controller => ../controller
 //replace github.com/adnaan/authn => ../../authn
 
 require (

@@ -12,7 +12,12 @@
 //$navbar-background-color: #002C73;
 //$primary: #002C73;
 
+
 @import "~bulma/bulma";
+
+.bulma-loader-mixin {
+  @include loader;
+}
 
 
 // https://bulma.io/documentation/customize/with-webpack/#9-add-your-own-bulma-styles
