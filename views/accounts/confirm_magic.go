@@ -1,7 +1,6 @@
 package accounts
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/go-chi/chi"
@@ -11,24 +10,21 @@ import (
 	glv "github.com/goliveview/controller"
 )
 
-type HandlerConfirmMagicView struct {
+type ConfirmMagicView struct {
+	glv.DefaultView
 	Auth *authn.API
 }
 
-func (h *HandlerConfirmMagicView) EventHandler(ctx glv.Context) error {
-	switch ctx.Event().ID {
-	default:
-		log.Printf("warning:handler not found for event => \n %+v\n", ctx.Event())
-	}
-	return nil
+func (c *ConfirmMagicView) Content() string {
+	return "./templates/views/accounts/confirm_magic"
 }
 
-func (h *HandlerConfirmMagicView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
+func (c *ConfirmMagicView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
 	if r.Method != "GET" {
 		return 405, nil
 	}
 	token := chi.URLParam(r, "token")
-	err := h.Auth.LoginWithPasswordlessToken(w, r, token)
+	err := c.Auth.LoginWithPasswordlessToken(w, r, token)
 	if err != nil {
 		return 200, nil
 	}

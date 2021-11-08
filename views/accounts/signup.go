@@ -11,22 +11,27 @@ import (
 	glv "github.com/goliveview/controller"
 )
 
-type HandlerSignupView struct {
+type SignupView struct {
+	glv.DefaultView
 	Auth *authn.API
 }
 
-func (h *HandlerSignupView) EventHandler(ctx glv.Context) error {
+func (s *SignupView) Content() string {
+	return "./templates/views/accounts/signup"
+}
+
+func (s *SignupView) OnEvent(ctx glv.Context) error {
 	switch ctx.Event().ID {
 	case "auth/signup":
-		return h.Signup(ctx)
+		return s.Signup(ctx)
 	default:
 		log.Printf("warning:handler not found for event => \n %+v\n", ctx.Event())
 	}
 	return nil
 }
 
-func (h *HandlerSignupView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
-	if _, err := h.Auth.CurrentAccount(r); err != nil {
+func (s *SignupView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
+	if _, err := s.Auth.CurrentAccount(r); err != nil {
 		return 200, nil
 	}
 
@@ -41,7 +46,7 @@ type ProfileRequest struct {
 	Password string `json:"password"`
 }
 
-func (h *HandlerSignupView) Signup(ctx glv.Context) error {
+func (s *SignupView) Signup(ctx glv.Context) error {
 	ctx.DOM().AddClass("#loading-modal", "is-active")
 	defer func() {
 		ctx.DOM().RemoveClass("#loading-modal", "is-active")
@@ -61,7 +66,7 @@ func (h *HandlerSignupView) Signup(ctx glv.Context) error {
 	attributes := make(map[string]interface{})
 	attributes["name"] = r.Name
 
-	if err := h.Auth.Signup(ctx.RequestContext(), r.Email, r.Password, attributes); err != nil {
+	if err := s.Auth.Signup(ctx.RequestContext(), r.Email, r.Password, attributes); err != nil {
 		return err
 	}
 	ctx.DOM().Morph("#signup_container", "signup_container", glv.M{

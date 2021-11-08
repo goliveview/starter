@@ -11,11 +11,16 @@ import (
 	glv "github.com/goliveview/controller"
 )
 
-type HandlerConfirmView struct {
+type ConfirmView struct {
+	glv.DefaultView
 	Auth *authn.API
 }
 
-func (h *HandlerConfirmView) EventHandler(ctx glv.Context) error {
+func (h *ConfirmView) Content() string {
+	return "./templates/views/accounts/confirm"
+}
+
+func (h *ConfirmView) OnEvent(ctx glv.Context) error {
 	switch ctx.Event().ID {
 	default:
 		log.Printf("warning:handler not found for event => \n %+v\n", ctx.Event())
@@ -23,7 +28,7 @@ func (h *HandlerConfirmView) EventHandler(ctx glv.Context) error {
 	return nil
 }
 
-func (h *HandlerConfirmView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
+func (h *ConfirmView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
 	token := chi.URLParam(r, "token")
 	err := h.Auth.ConfirmSignupEmail(r.Context(), token)
 	if err != nil {

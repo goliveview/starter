@@ -10,28 +10,37 @@ import (
 	glv "github.com/goliveview/controller"
 )
 
-type HandlerSettingsView struct {
+type SettingsView struct {
+	glv.DefaultView
 	Auth *authn.API
 }
 
-func (h *HandlerSettingsView) EventHandler(ctx glv.Context) error {
+func (s *SettingsView) Content() string {
+	return "./templates/views/accounts/settings"
+}
+
+func (s *SettingsView) Layout() string {
+	return "./templates/layouts/app.html"
+}
+
+func (s *SettingsView) OnEvent(ctx glv.Context) error {
 	switch ctx.Event().ID {
 	case "account/update":
-		return h.UpdateProfile(ctx)
+		return s.UpdateProfile(ctx)
 	case "account/delete":
-		return h.DeleteAccount(ctx)
+		return s.DeleteAccount(ctx)
 	default:
 		log.Printf("warning:handler not found for event => \n %+v\n", ctx.Event())
 	}
 	return nil
 }
 
-func (h *HandlerSettingsView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
+func (s *SettingsView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
 	if r.Method != "GET" {
 		return 405, nil
 	}
 	userID, _ := r.Context().Value(authn.AccountIDKey).(string)
-	acc, err := h.Auth.GetAccount(r.Context(), userID)
+	acc, err := s.Auth.GetAccount(r.Context(), userID)
 	if err != nil {
 		return 200, nil
 	}
@@ -49,7 +58,7 @@ func (h *HandlerSettingsView) OnMount(w http.ResponseWriter, r *http.Request) (i
 	}
 }
 
-func (h *HandlerSettingsView) UpdateProfile(ctx glv.Context) error {
+func (s *SettingsView) UpdateProfile(ctx glv.Context) error {
 
 	ctx.DOM().RemoveClass("#profile-loading", "is-hidden")
 	defer func() {
@@ -61,7 +70,7 @@ func (h *HandlerSettingsView) UpdateProfile(ctx glv.Context) error {
 		return err
 	}
 	userID, _ := ctx.RequestContext().Value(authn.AccountIDKey).(string)
-	acc, err := h.Auth.GetAccount(ctx.RequestContext(), userID)
+	acc, err := s.Auth.GetAccount(ctx.RequestContext(), userID)
 	if err != nil {
 		return err
 	}
@@ -80,9 +89,9 @@ func (h *HandlerSettingsView) UpdateProfile(ctx glv.Context) error {
 	return nil
 }
 
-func (h *HandlerSettingsView) DeleteAccount(ctx glv.Context) error {
+func (s *SettingsView) DeleteAccount(ctx glv.Context) error {
 	userID, _ := ctx.RequestContext().Value(authn.AccountIDKey).(string)
-	acc, err := h.Auth.GetAccount(ctx.RequestContext(), userID)
+	acc, err := s.Auth.GetAccount(ctx.RequestContext(), userID)
 	if err != nil {
 		return err
 	}

@@ -2,32 +2,32 @@ package accounts
 
 import (
 	"log"
-	"net/http"
 
 	"github.com/adnaan/authn"
 
 	glv "github.com/goliveview/controller"
 )
 
-type HandlerForgotView struct {
+type ForgotView struct {
+	glv.DefaultView
 	Auth *authn.API
 }
 
-func (h *HandlerForgotView) EventHandler(ctx glv.Context) error {
+func (f *ForgotView) Content() string {
+	return "./templates/views/accounts/forgot"
+}
+
+func (f *ForgotView) OnEvent(ctx glv.Context) error {
 	switch ctx.Event().ID {
 	case "account/forgot":
-		return h.SendRecovery(ctx)
+		return f.SendRecovery(ctx)
 	default:
 		log.Printf("warning:handler not found for event => \n %+v\n", ctx.Event())
 	}
 	return nil
 }
 
-func (h *HandlerForgotView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
-	return 200, nil
-}
-
-func (h *HandlerForgotView) SendRecovery(ctx glv.Context) error {
+func (f *ForgotView) SendRecovery(ctx glv.Context) error {
 	ctx.DOM().AddClass("#loading-modal", "is-active")
 	defer func() {
 		ctx.DOM().RemoveClass("#loading-modal", "is-active")
@@ -37,7 +37,7 @@ func (h *HandlerForgotView) SendRecovery(ctx glv.Context) error {
 		return err
 	}
 
-	if err := h.Auth.Recovery(ctx.RequestContext(), r.Email); err != nil {
+	if err := f.Auth.Recovery(ctx.RequestContext(), r.Email); err != nil {
 		return err
 	}
 

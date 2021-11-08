@@ -11,25 +11,26 @@ import (
 	glv "github.com/goliveview/controller"
 )
 
-type HandlerConfirmEmailChangeView struct {
+type ConfirmEmailChangeView struct {
+	glv.DefaultView
 	Auth *authn.API
 }
 
-func (h *HandlerConfirmEmailChangeView) EventHandler(ctx glv.Context) error {
-	switch ctx.Event().ID {
-	default:
-		log.Printf("warning:handler not found for event => \n %+v\n", ctx.Event())
-	}
-	return nil
+func (c *ConfirmEmailChangeView) Content() string {
+	return "./templates/views/accounts/confirm_email_change"
 }
 
-func (h *HandlerConfirmEmailChangeView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
+func (c *ConfirmEmailChangeView) Layout() string {
+	return "./templates/layouts/app.html"
+}
+
+func (c *ConfirmEmailChangeView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
 	if r.Method != "GET" {
 		return 405, nil
 	}
 	token := chi.URLParam(r, "token")
 	userID, _ := r.Context().Value(authn.AccountIDKey).(string)
-	acc, err := h.Auth.GetAccount(r.Context(), userID)
+	acc, err := c.Auth.GetAccount(r.Context(), userID)
 	if err != nil {
 		log.Printf("confirm change email: GetAccount err %v", err)
 		return 200, nil
