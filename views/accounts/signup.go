@@ -30,12 +30,12 @@ func (s *SignupView) OnEvent(ctx glv.Context) error {
 	return nil
 }
 
-func (s *SignupView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
+func (s *SignupView) OnMount(w http.ResponseWriter, r *http.Request) (glv.Status, glv.M) {
 	if _, err := s.Auth.CurrentAccount(r); err != nil {
-		return 200, nil
+		return glv.Status{Code: 200}, nil
 	}
 
-	return 200, glv.M{
+	return glv.Status{Code: 200}, glv.M{
 		"is_logged_in": true,
 	}
 }

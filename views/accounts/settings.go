@@ -24,6 +24,13 @@ func (s *SettingsView) Layout() string {
 }
 
 func (s *SettingsView) OnEvent(ctx glv.Context) error {
+	ctx.DOM().RemoveClass("#profile-loading", "is-hidden")
+	ctx.DOM().SetAttributes("#profile_inputs", glv.M{"disabled": "disabled"})
+	defer func() {
+		time.Sleep(1 * time.Second)
+		ctx.DOM().AddClass("#profile-loading", "is-hidden")
+		ctx.DOM().RemoveAttributes("#profile_inputs", []string{"disabled"})
+	}()
 	switch ctx.Event().ID {
 	case "account/update":
 		return s.UpdateProfile(ctx)
@@ -35,14 +42,14 @@ func (s *SettingsView) OnEvent(ctx glv.Context) error {
 	return nil
 }
 
-func (s *SettingsView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
+func (s *SettingsView) OnMount(w http.ResponseWriter, r *http.Request) (glv.Status, glv.M) {
 	if r.Method != "GET" {
-		return 405, nil
+		return glv.Status{Code: 405}, nil
 	}
 	userID, _ := r.Context().Value(authn.AccountIDKey).(string)
 	acc, err := s.Auth.GetAccount(r.Context(), userID)
 	if err != nil {
-		return 200, nil
+		return glv.Status{Code: 200}, nil
 	}
 
 	name := ""
@@ -51,7 +58,7 @@ func (s *SettingsView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv
 		name, _ = m.String("name")
 	}
 
-	return 200, glv.M{
+	return glv.Status{Code: 200}, glv.M{
 		"is_logged_in": true,
 		"email":        acc.Email(),
 		"name":         name,
@@ -59,12 +66,6 @@ func (s *SettingsView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv
 }
 
 func (s *SettingsView) UpdateProfile(ctx glv.Context) error {
-
-	ctx.DOM().RemoveClass("#profile-loading", "is-hidden")
-	defer func() {
-		time.Sleep(1 * time.Second)
-		ctx.DOM().AddClass("#profile-loading", "is-hidden")
-	}()
 	r := new(ProfileRequest)
 	if err := ctx.Event().DecodeParams(r); err != nil {
 		return err
@@ -80,6 +81,7 @@ func (s *SettingsView) UpdateProfile(ctx glv.Context) error {
 	}
 
 	if r.Email != "" && r.Email != acc.Email() {
+
 		if err := acc.ChangeEmail(ctx.RequestContext(), r.Email); err != nil {
 			return err
 		}

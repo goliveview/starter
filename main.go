@@ -66,35 +66,32 @@ func main() {
 	r.Use(middleware.StripSlashes)
 
 	// create liveview controller and set routes
-	name := "goliveview-starter"
-	glvc := glv.Websocket(
-		&name,
-		glv.EnableHTMLFormatting(),
-		glv.DisableTemplateCache(),
-		glv.EnableDebugLog(),
-		glv.EnableWatch(),
-	)
+	mode := false
+	if cfg.Env != "production" {
+		mode = true
+	}
+	glvc := glv.Websocket("goliveview-starter", glv.DevelopmentMode(mode))
 
 	// 404 and /
-	r.NotFound(glvc.Handle(&views.NotfoundView{}))
-	r.Handle("/", glvc.Handle(&views.LandingView{Auth: authnAPI}))
+	r.NotFound(glvc.Handler(&views.NotfoundView{}))
+	r.Handle("/", glvc.Handler(&views.LandingView{Auth: authnAPI}))
 	// unauthenticated views
 	accountViews := accounts.Views{Auth: authnAPI}
-	r.Handle("/signup", glvc.Handle(accountViews.Signup()))
-	r.Handle("/confirm/{token}", glvc.Handle(accountViews.Confirm()))
-	r.Handle("/login", glvc.Handle(accountViews.Login()))
-	r.Handle("/magic-login/{token}", glvc.Handle(accountViews.ConfirmMagic()))
-	r.Handle("/forgot", glvc.Handle(accountViews.Forgot()))
-	r.Handle("/reset/{token}", glvc.Handle(accountViews.Reset()))
+	r.Handle("/signup", glvc.Handler(accountViews.Signup()))
+	r.Handle("/confirm/{token}", glvc.Handler(accountViews.Confirm()))
+	r.Handle("/login", glvc.Handler(accountViews.Login()))
+	r.Handle("/magic-login/{token}", glvc.Handler(accountViews.ConfirmMagic()))
+	r.Handle("/forgot", glvc.Handler(accountViews.Forgot()))
+	r.Handle("/reset/{token}", glvc.Handler(accountViews.Reset()))
 	// authenticated routes
 	r.Route("/account", func(r chi.Router) {
 		r.Use(authnAPI.IsAuthenticated)
-		r.Handle("/", glvc.Handle(accountViews.Settings()))
-		r.Handle("/email/change/{token}", glvc.Handle(accountViews.ConfirmEmailChange()))
+		r.Handle("/", glvc.Handler(accountViews.Settings()))
+		r.Handle("/email/change/{token}", glvc.Handler(accountViews.ConfirmEmailChange()))
 	})
 	r.Route("/app", func(r chi.Router) {
 		r.Use(authnAPI.IsAuthenticated)
-		r.Handle("/", glvc.Handle(&app.DashboardView{Auth: authnAPI}))
+		r.Handle("/", glvc.Handler(&app.DashboardView{Auth: authnAPI}))
 	})
 
 	// third party auth provider routes

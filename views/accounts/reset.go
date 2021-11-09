@@ -32,9 +32,9 @@ func (rv *ResetView) OnEvent(ctx glv.Context) error {
 	return nil
 }
 
-func (rv *ResetView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
+func (rv *ResetView) OnMount(w http.ResponseWriter, r *http.Request) (glv.Status, glv.M) {
 	token := chi.URLParam(r, "token")
-	return 200, glv.M{
+	return glv.Status{Code: 200}, glv.M{
 		"token": token,
 	}
 }

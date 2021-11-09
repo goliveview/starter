@@ -28,14 +28,14 @@ func (h *ConfirmView) OnEvent(ctx glv.Context) error {
 	return nil
 }
 
-func (h *ConfirmView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
+func (h *ConfirmView) OnMount(w http.ResponseWriter, r *http.Request) (glv.Status, glv.M) {
 	token := chi.URLParam(r, "token")
 	err := h.Auth.ConfirmSignupEmail(r.Context(), token)
 	if err != nil {
 		log.Println("err confirm.onmount", err)
-		return 200, nil
+		return glv.Status{Code: 200}, nil
 	}
-	return 200, glv.M{
+	return glv.Status{Code: 200}, glv.M{
 		"confirmed": true,
 	}
 }

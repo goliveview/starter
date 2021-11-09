@@ -28,7 +28,8 @@
             <div class="field">
                 <label class="label">Name</label>
                 <div class="control">
-                    <input maxlength="30"
+                    <input id="profile_inputs"
+                           maxlength="30"
                             class="input"
                             name="Name"
                             type="text"
@@ -36,12 +37,12 @@
                             value="{{.name}}">
                 </div>
             </div>
-
             {{if .email}}
                 <div class="field">
                     <label class="label">Email</label>
                     <div class="control">
                         <input class="input"
+                               id="profile_inputs"
                                name="Email"
                                type="email"
                                aria-label="Email"
@@ -54,7 +55,7 @@
 
             <div class="field">
                 <p class="control">
-                    <button class="button is-link" type="submit">
+                    <button id="profile_inputs" class="button is-link" type="submit">
                         Update
                     </button>
                 </p>

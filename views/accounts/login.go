@@ -34,32 +34,32 @@ func (l *LoginView) OnEvent(ctx glv.Context) error {
 	return nil
 }
 
-func (l *LoginView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
+func (l *LoginView) OnMount(w http.ResponseWriter, r *http.Request) (glv.Status, glv.M) {
 	if r.Method == "POST" {
 		return l.LoginSubmit(w, r)
 	}
 
 	if _, err := l.Auth.CurrentAccount(r); err != nil {
-		return 200, nil
+		return glv.Status{Code: 200}, nil
 	}
 
-	return 200, glv.M{
+	return glv.Status{Code: 200}, glv.M{
 		"is_logged_in": true,
 	}
 }
 
-func (l *LoginView) LoginSubmit(w http.ResponseWriter, r *http.Request) (int, glv.M) {
+func (l *LoginView) LoginSubmit(w http.ResponseWriter, r *http.Request) (glv.Status, glv.M) {
 	var email, password string
 	_ = r.ParseForm()
 	for k, v := range r.Form {
 		if k == "email" && len(v) == 0 {
-			return 200, glv.M{
+			return glv.Status{Code: 200}, glv.M{
 				"error": "email is required",
 			}
 		}
 
 		if k == "password" && len(v) == 0 {
-			return 200, glv.M{
+			return glv.Status{Code: 200}, glv.M{
 				"error": "password is required",
 			}
 		}
@@ -79,7 +79,7 @@ func (l *LoginView) LoginSubmit(w http.ResponseWriter, r *http.Request) (int, gl
 		}
 	}
 	if err := l.Auth.Login(w, r, email, password); err != nil {
-		return 200, glv.M{
+		return glv.Status{Code: 200}, glv.M{
 			"error": glv.UserError(err),
 		}
 	}
@@ -91,7 +91,7 @@ func (l *LoginView) LoginSubmit(w http.ResponseWriter, r *http.Request) (int, gl
 
 	http.Redirect(w, r, redirectTo, http.StatusSeeOther)
 
-	return 200, glv.M{}
+	return glv.Status{Code: 200}, glv.M{}
 }
 
 func (l *LoginView) MagicLogin(ctx glv.Context) error {

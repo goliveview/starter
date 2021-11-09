@@ -29,8 +29,8 @@ func (d *DashboardView) OnEvent(ctx glv.Context) error {
 	return nil
 }
 
-func (d *DashboardView) OnMount(w http.ResponseWriter, r *http.Request) (int, glv.M) {
-	return 200, glv.M{
+func (d *DashboardView) OnMount(w http.ResponseWriter, r *http.Request) (glv.Status, glv.M) {
+	return glv.Status{Code: 200}, glv.M{
 		"is_logged_in": true,
 	}
 }

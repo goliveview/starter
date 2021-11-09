@@ -3,13 +3,14 @@ module goliveview-starter
 go 1.17
 
 // replace github.com/goliveview/controller => ../controller
+
 // replace github.com/adnaan/authn => ../../authn
 
 require (
 	github.com/adnaan/authn v0.0.3
 	github.com/davecgh/go-spew v1.1.1
 	github.com/go-chi/chi v1.5.4
-	github.com/goliveview/controller v0.0.3
+	github.com/goliveview/controller v0.0.4
 	github.com/imdario/mergo v0.3.12 // indirect
 	github.com/joho/godotenv v1.4.0
 	github.com/jordan-wright/email v4.0.1-0.20210109023952-943e75fe5223+incompatible
@@ -43,7 +44,7 @@ require (
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/huandu/xstrings v1.3.2 // indirect
 	github.com/jaytaylor/html2text v0.0.0-20180606194806-57d518f124b0 // indirect
-	github.com/lithammer/shortuuid/v3 v3.0.7 // indirect
+	github.com/lithammer/shortuuid v3.0.0+incompatible // indirect
 	github.com/mattn/go-runewidth v0.0.9 // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect
