@@ -20,6 +20,10 @@ func (l *LoginView) Content() string {
 	return "./templates/views/accounts/login"
 }
 
+func (l *LoginView) Layout() string {
+	return "./templates/layouts/index.html"
+}
+
 func (l *LoginView) OnEvent(ctx glv.Context) error {
 	ctx.DOM().AddClass("#loading-modal", "is-active")
 	defer func() {

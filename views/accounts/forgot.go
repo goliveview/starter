@@ -17,6 +17,10 @@ func (f *ForgotView) Content() string {
 	return "./templates/views/accounts/forgot"
 }
 
+func (f *ForgotView) Layout() string {
+	return "./templates/layouts/index.html"
+}
+
 func (f *ForgotView) OnEvent(ctx glv.Context) error {
 	switch ctx.Event().ID {
 	case "account/forgot":

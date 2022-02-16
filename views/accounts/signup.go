@@ -20,6 +20,10 @@ func (s *SignupView) Content() string {
 	return "./templates/views/accounts/signup"
 }
 
+func (s *SignupView) Layout() string {
+	return "./templates/layouts/index.html"
+}
+
 func (s *SignupView) OnEvent(ctx glv.Context) error {
 	switch ctx.Event().ID {
 	case "auth/signup":

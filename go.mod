@@ -10,7 +10,7 @@ require (
 	github.com/adnaan/authn v0.0.4
 	github.com/davecgh/go-spew v1.1.1
 	github.com/go-chi/chi v1.5.4
-	github.com/goliveview/controller v0.0.4
+	github.com/goliveview/controller v0.0.5
 	github.com/imdario/mergo v0.3.12 // indirect
 	github.com/joho/godotenv v1.4.0
 	github.com/jordan-wright/email v4.0.1-0.20210109023952-943e75fe5223+incompatible

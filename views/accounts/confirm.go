@@ -20,6 +20,10 @@ func (h *ConfirmView) Content() string {
 	return "./templates/views/accounts/confirm"
 }
 
+func (h *ConfirmView) Layout() string {
+	return "./templates/layouts/index.html"
+}
+
 func (h *ConfirmView) OnEvent(ctx glv.Context) error {
 	switch ctx.Event().ID {
 	default:

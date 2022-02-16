@@ -72,10 +72,10 @@ func main() {
 	}
 	glvc := glv.Websocket("goliveview-starter", glv.DevelopmentMode(mode))
 
+	// unauthenticated
 	// 404 and /
 	r.NotFound(glvc.Handler(&views.NotfoundView{}))
 	r.Handle("/", glvc.Handler(&views.LandingView{Auth: authnAPI}))
-	// unauthenticated views
 	accountViews := accounts.Views{Auth: authnAPI}
 	r.Handle("/signup", glvc.Handler(accountViews.Signup()))
 	r.Handle("/confirm/{token}", glvc.Handler(accountViews.Confirm()))
@@ -83,17 +83,6 @@ func main() {
 	r.Handle("/magic-login/{token}", glvc.Handler(accountViews.ConfirmMagic()))
 	r.Handle("/forgot", glvc.Handler(accountViews.Forgot()))
 	r.Handle("/reset/{token}", glvc.Handler(accountViews.Reset()))
-	// authenticated routes
-	r.Route("/account", func(r chi.Router) {
-		r.Use(authnAPI.IsAuthenticated)
-		r.Handle("/", glvc.Handler(accountViews.Settings()))
-		r.Handle("/email/change/{token}", glvc.Handler(accountViews.ConfirmEmailChange()))
-	})
-	r.Route("/app", func(r chi.Router) {
-		r.Use(authnAPI.IsAuthenticated)
-		r.Handle("/", glvc.Handler(&app.DashboardView{Auth: authnAPI}))
-	})
-
 	// third party auth provider routes
 	r.Get("/auth", func(w http.ResponseWriter, r *http.Request) {
 		err := authnAPI.LoginWithProvider(w, r)
@@ -134,6 +123,18 @@ func main() {
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		}
 		acc.Logout(w, r)
+	})
+
+	// authenticated
+	r.Route("/account", func(r chi.Router) {
+		r.Use(authnAPI.IsAuthenticated)
+		r.Handle("/", glvc.Handler(accountViews.Settings()))
+		r.Handle("/email/change/{token}", glvc.Handler(accountViews.ConfirmEmailChange()))
+	})
+
+	r.Route("/app", func(r chi.Router) {
+		r.Use(authnAPI.IsAuthenticated)
+		r.Handle("/", glvc.Handler(&app.DashboardView{Auth: authnAPI}))
 	})
 
 	// setup static assets handler

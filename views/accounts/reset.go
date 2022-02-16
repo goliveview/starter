@@ -22,6 +22,10 @@ func (rv *ResetView) Content() string {
 	return "./templates/views/accounts/reset"
 }
 
+func (rv *ResetView) Layout() string {
+	return "./templates/layouts/index.html"
+}
+
 func (rv *ResetView) OnEvent(ctx glv.Context) error {
 	switch ctx.Event().ID {
 	case "account/reset":
