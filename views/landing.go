@@ -1,8 +1,6 @@
 package views
 
 import (
-	"net/http"
-
 	"github.com/adnaan/authn"
 
 	glv "github.com/goliveview/controller"
@@ -21,7 +19,8 @@ func (l *LandingView) Layout() string {
 	return "./templates/layouts/index.html"
 }
 
-func (l *LandingView) OnMount(w http.ResponseWriter, r *http.Request) (glv.Status, glv.M) {
+func (l *LandingView) OnMount(ctx glv.Context) (glv.Status, glv.M) {
+	r := ctx.Request()
 	if r.Method != "GET" {
 		return glv.Status{Code: 405}, nil
 	}

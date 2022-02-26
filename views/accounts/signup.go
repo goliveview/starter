@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"net/http"
 
 	"github.com/adnaan/authn"
 
@@ -34,8 +33,8 @@ func (s *SignupView) OnEvent(ctx glv.Context) error {
 	return nil
 }
 
-func (s *SignupView) OnMount(w http.ResponseWriter, r *http.Request) (glv.Status, glv.M) {
-	if _, err := s.Auth.CurrentAccount(r); err != nil {
+func (s *SignupView) OnMount(ctx glv.Context) (glv.Status, glv.M) {
+	if _, err := s.Auth.CurrentAccount(ctx.Request()); err != nil {
 		return glv.Status{Code: 200}, nil
 	}
 
@@ -55,22 +54,22 @@ func (s *SignupView) Signup(ctx glv.Context) error {
 	defer func() {
 		ctx.DOM().RemoveClass("#loading-modal", "is-active")
 	}()
-	r := new(ProfileRequest)
-	if err := ctx.Event().DecodeParams(r); err != nil {
+	req := new(ProfileRequest)
+	if err := ctx.Event().DecodeParams(req); err != nil {
 		return err
 	}
 
-	if r.Email == "" {
+	if req.Email == "" {
 		return fmt.Errorf("%w", errors.New("email is required"))
 	}
-	if r.Password == "" {
+	if req.Password == "" {
 		return fmt.Errorf("%w", errors.New("password is required"))
 	}
 
 	attributes := make(map[string]interface{})
-	attributes["name"] = r.Name
+	attributes["name"] = req.Name
 
-	if err := s.Auth.Signup(ctx.RequestContext(), r.Email, r.Password, attributes); err != nil {
+	if err := s.Auth.Signup(ctx.Request().Context(), req.Email, req.Password, attributes); err != nil {
 		return err
 	}
 	ctx.DOM().Morph("#signup_container", "signup_container", glv.M{

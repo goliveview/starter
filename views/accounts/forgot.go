@@ -36,12 +36,12 @@ func (f *ForgotView) SendRecovery(ctx glv.Context) error {
 	defer func() {
 		ctx.DOM().RemoveClass("#loading-modal", "is-active")
 	}()
-	r := new(ProfileRequest)
-	if err := ctx.Event().DecodeParams(r); err != nil {
+	req := new(ProfileRequest)
+	if err := ctx.Event().DecodeParams(req); err != nil {
 		return err
 	}
 
-	if err := f.Auth.Recovery(ctx.RequestContext(), r.Email); err != nil {
+	if err := f.Auth.Recovery(ctx.Request().Context(), req.Email); err != nil {
 		return err
 	}
 

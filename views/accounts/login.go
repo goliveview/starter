@@ -38,7 +38,8 @@ func (l *LoginView) OnEvent(ctx glv.Context) error {
 	return nil
 }
 
-func (l *LoginView) OnMount(w http.ResponseWriter, r *http.Request) (glv.Status, glv.M) {
+func (l *LoginView) OnMount(ctx glv.Context) (glv.Status, glv.M) {
+	w, r := ctx.ResponseWriter(), ctx.Request()
 	if r.Method == "POST" {
 		return l.LoginSubmit(w, r)
 	}
@@ -106,7 +107,7 @@ func (l *LoginView) MagicLogin(ctx glv.Context) error {
 	if r.Email == "" {
 		return fmt.Errorf("%w", errors.New("email is required"))
 	}
-	if err := l.Auth.SendPasswordlessToken(ctx.RequestContext(), r.Email); err != nil {
+	if err := l.Auth.SendPasswordlessToken(ctx.Request().Context(), r.Email); err != nil {
 		return err
 	}
 	ctx.DOM().Morph("#signin_container", "signin_container", glv.M{"sent_magic_link": true})

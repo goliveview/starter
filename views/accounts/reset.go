@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"net/http"
 
 	"github.com/go-chi/chi"
 
@@ -36,8 +35,8 @@ func (rv *ResetView) OnEvent(ctx glv.Context) error {
 	return nil
 }
 
-func (rv *ResetView) OnMount(w http.ResponseWriter, r *http.Request) (glv.Status, glv.M) {
-	token := chi.URLParam(r, "token")
+func (rv *ResetView) OnMount(ctx glv.Context) (glv.Status, glv.M) {
+	token := chi.URLParam(ctx.Request(), "token")
 	return glv.Status{Code: 200}, glv.M{
 		"token": token,
 	}
@@ -61,7 +60,7 @@ func (rv *ResetView) Reset(ctx glv.Context) error {
 	if r.ConfirmPassword != r.Password {
 		return fmt.Errorf("%w", errors.New("passwords don't match"))
 	}
-	if err := rv.Auth.ConfirmRecovery(ctx.RequestContext(), r.Token, r.Password); err != nil {
+	if err := rv.Auth.ConfirmRecovery(ctx.Request().Context(), r.Token, r.Password); err != nil {
 		return err
 	}
 	ctx.DOM().AddClass("#new_password", "is-hidden")

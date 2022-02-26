@@ -2,7 +2,6 @@ package accounts
 
 import (
 	"log"
-	"net/http"
 	"time"
 
 	"github.com/adnaan/authn"
@@ -42,7 +41,8 @@ func (s *SettingsView) OnEvent(ctx glv.Context) error {
 	return nil
 }
 
-func (s *SettingsView) OnMount(w http.ResponseWriter, r *http.Request) (glv.Status, glv.M) {
+func (s *SettingsView) OnMount(ctx glv.Context) (glv.Status, glv.M) {
+	r := ctx.Request()
 	if r.Method != "GET" {
 		return glv.Status{Code: 405}, nil
 	}
@@ -66,38 +66,42 @@ func (s *SettingsView) OnMount(w http.ResponseWriter, r *http.Request) (glv.Stat
 }
 
 func (s *SettingsView) UpdateProfile(ctx glv.Context) error {
-	r := new(ProfileRequest)
-	if err := ctx.Event().DecodeParams(r); err != nil {
+	req := new(ProfileRequest)
+	if err := ctx.Event().DecodeParams(req); err != nil {
 		return err
 	}
-	userID, _ := ctx.RequestContext().Value(authn.AccountIDKey).(string)
-	acc, err := s.Auth.GetAccount(ctx.RequestContext(), userID)
+	rCtx := ctx.Request().Context()
+	userID, _ := rCtx.Value(authn.AccountIDKey).(string)
+	acc, err := s.Auth.GetAccount(rCtx, userID)
 	if err != nil {
 		return err
 	}
-
-	if err := acc.Attributes().Set(ctx.RequestContext(), "name", r.Name); err != nil {
+	if err := acc.Attributes().Set(rCtx, "name", req.Name); err != nil {
 		return err
 	}
-
-	if r.Email != "" && r.Email != acc.Email() {
-
-		if err := acc.ChangeEmail(ctx.RequestContext(), r.Email); err != nil {
+	if req.Email != "" && req.Email != acc.Email() {
+		if err := acc.ChangeEmail(rCtx, req.Email); err != nil {
 			return err
 		}
 		ctx.DOM().RemoveClass("#change_email", "is-hidden")
 	}
 
+	ctx.DOM().Morph("#account_form", "account_form", glv.M{
+		"name":  req.Name,
+		"email": acc.Email(),
+	})
+
 	return nil
 }
 
 func (s *SettingsView) DeleteAccount(ctx glv.Context) error {
-	userID, _ := ctx.RequestContext().Value(authn.AccountIDKey).(string)
-	acc, err := s.Auth.GetAccount(ctx.RequestContext(), userID)
+	rCtx := ctx.Request().Context()
+	userID, _ := rCtx.Value(authn.AccountIDKey).(string)
+	acc, err := s.Auth.GetAccount(rCtx, userID)
 	if err != nil {
 		return err
 	}
-	if err := acc.Delete(ctx.RequestContext()); err != nil {
+	if err := acc.Delete(rCtx); err != nil {
 		return err
 	}
 	ctx.DOM().Reload()

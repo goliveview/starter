@@ -2,7 +2,6 @@ package app
 
 import (
 	"log"
-	"net/http"
 
 	"github.com/adnaan/authn"
 	glv "github.com/goliveview/controller"
@@ -29,7 +28,7 @@ func (d *DashboardView) OnEvent(ctx glv.Context) error {
 	return nil
 }
 
-func (d *DashboardView) OnMount(w http.ResponseWriter, r *http.Request) (glv.Status, glv.M) {
+func (d *DashboardView) OnMount(ctx glv.Context) (glv.Status, glv.M) {
 	return glv.Status{Code: 200}, glv.M{
 		"is_logged_in": true,
 	}

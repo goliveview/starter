@@ -24,7 +24,8 @@ func (c *ConfirmEmailChangeView) Layout() string {
 	return "./templates/layouts/app.html"
 }
 
-func (c *ConfirmEmailChangeView) OnMount(w http.ResponseWriter, r *http.Request) (glv.Status, glv.M) {
+func (c *ConfirmEmailChangeView) OnMount(ctx glv.Context) (glv.Status, glv.M) {
+	r := ctx.Request()
 	if r.Method != "GET" {
 		return glv.Status{Code: 405}, nil
 	}
@@ -42,6 +43,6 @@ func (c *ConfirmEmailChangeView) OnMount(w http.ResponseWriter, r *http.Request)
 	}
 
 	redirectTo := "/account"
-	http.Redirect(w, r, redirectTo, http.StatusSeeOther)
+	http.Redirect(ctx.ResponseWriter(), r, redirectTo, http.StatusSeeOther)
 	return glv.Status{Code: 200}, nil
 }

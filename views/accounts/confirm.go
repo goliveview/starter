@@ -2,7 +2,6 @@ package accounts
 
 import (
 	"log"
-	"net/http"
 
 	"github.com/go-chi/chi"
 
@@ -32,7 +31,8 @@ func (h *ConfirmView) OnEvent(ctx glv.Context) error {
 	return nil
 }
 
-func (h *ConfirmView) OnMount(w http.ResponseWriter, r *http.Request) (glv.Status, glv.M) {
+func (h *ConfirmView) OnMount(ctx glv.Context) (glv.Status, glv.M) {
+	r := ctx.Request()
 	token := chi.URLParam(r, "token")
 	err := h.Auth.ConfirmSignupEmail(r.Context(), token)
 	if err != nil {

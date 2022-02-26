@@ -23,13 +23,14 @@
     "dotenv-webpack": "^7.0.3",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "glob-all": "^3.2.1",
+    "goliveview-stimulus": "0.0.3",
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
     "mini-css-extract-plugin": "^2.3.0",
     "morphdom": "^2.6.1",
-    "node-sass": "^6.0.1",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
     "purgecss-webpack-plugin": "^4.0.3",
+    "sass": "^1.49.9",
     "sass-loader": "^12.1.0",
     "stimulus": "^3.0.1",
     "stimulus-use": "^0.41.0",
@@ -39,7 +40,6 @@
     "webpack": "^5.52.1",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.8.0",
-    "webpack-dev-middleware": "^5.1.0",
-    "goliveview-stimulus": "0.0.1"
+    "webpack-dev-middleware": "^5.1.0"
   }
 }

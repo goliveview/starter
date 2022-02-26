@@ -160,6 +160,8 @@ github.com/goliveview/controller v0.0.4 h1:mb0YCZi8UVhPWvITv5MUeumdULUqbpPHROwRx
 github.com/goliveview/controller v0.0.4/go.mod h1:LzLRpNZE0fVqLFRvDnYsMlez7UbbpPhaoAeOzsA+Fm4=
 github.com/goliveview/controller v0.0.5 h1:GQwLd+6h3eq1LC3aCwosQs9cwxjdhYCKNsxHrWeB5r4=
 github.com/goliveview/controller v0.0.5/go.mod h1:LzLRpNZE0fVqLFRvDnYsMlez7UbbpPhaoAeOzsA+Fm4=
+github.com/goliveview/controller v0.0.6 h1:XRbUYsrlPwTVAJhcMiwse1lnR3YXfgezCCj8YeUu4Tk=
+github.com/goliveview/controller v0.0.6/go.mod h1:LzLRpNZE0fVqLFRvDnYsMlez7UbbpPhaoAeOzsA+Fm4=
 github.com/google/btree v0.0.0-20180813153112-4030bb1f1f0c/go.mod h1:lNA+9X1NB3Zf8V7Ke586lFgjr2dZNuvo3lPJSGZ5JPQ=
 github.com/google/btree v1.0.0/go.mod h1:lNA+9X1NB3Zf8V7Ke586lFgjr2dZNuvo3lPJSGZ5JPQ=
 github.com/google/go-cmp v0.2.0/go.mod h1:oXzfMopK8JAjlY9xF4vHSVASa0yLyX7SntLO5aqRK0M=
