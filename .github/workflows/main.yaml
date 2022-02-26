@@ -1,8 +1,7 @@
 name: Deploy
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published, created, edited]
 jobs:
   deploy:
     name: Deploys goliveview-starter on fly.dev
