@@ -23,14 +23,6 @@ func (h *ConfirmView) Layout() string {
 	return "./templates/layouts/index.html"
 }
 
-func (h *ConfirmView) OnEvent(ctx glv.Context) error {
-	switch ctx.Event().ID {
-	default:
-		log.Printf("warning:handler not found for event => \n %+v\n", ctx.Event())
-	}
-	return nil
-}
-
 func (h *ConfirmView) OnMount(ctx glv.Context) (glv.Status, glv.M) {
 	r := ctx.Request()
 	token := chi.URLParam(r, "token")

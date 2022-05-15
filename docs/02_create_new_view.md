@@ -17,12 +17,13 @@ The `View` interface:
 type View interface {
 	Content() string
 	Layout() string
-	OnMount(w http.ResponseWriter, r *http.Request) (Status, M)
-	OnEvent(ctx Context) error
 	LayoutContentName() string
 	Partials() []string
 	Extensions() []string
 	FuncMap() template.FuncMap
+	OnMount(ctx Context) (Status, M)
+	OnLiveEvent(ctx Context) error
+	LiveEventReceiver() <-chan Event
 }
 ```
 

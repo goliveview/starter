@@ -20,7 +20,7 @@ func (d *DashboardView) Layout() string {
 	return "./templates/layouts/app.html"
 }
 
-func (d *DashboardView) OnEvent(ctx glv.Context) error {
+func (d *DashboardView) OnLiveEvent(ctx glv.Context) error {
 	switch ctx.Event().ID {
 	default:
 		log.Printf("warning:handler not found for event => \n %+v\n", ctx.Event())

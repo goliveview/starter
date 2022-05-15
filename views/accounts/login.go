@@ -24,7 +24,7 @@ func (l *LoginView) Layout() string {
 	return "./templates/layouts/index.html"
 }
 
-func (l *LoginView) OnEvent(ctx glv.Context) error {
+func (l *LoginView) OnLiveEvent(ctx glv.Context) error {
 	ctx.DOM().AddClass("#loading-modal", "is-active")
 	defer func() {
 		ctx.DOM().RemoveClass("#loading-modal", "is-active")

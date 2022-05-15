@@ -1,7 +1,7 @@
 const path = require('path')
 const glob = require('glob-all')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const PurgeCssPlugin = require('purgecss-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -83,11 +83,7 @@ if (env !== "production") {
 
 if (env === 'production') {
     module.exports.plugins.push(
-        new OptimizeCssAssetsPlugin({
-            cssProcessorPluginOptions: {
-                preset: ['default', { discardComments: { removeAll: true } }]
-            }
-        })
+        new CssMinimizerPlugin()
     );
 
     module.exports.plugins.push(

@@ -23,7 +23,7 @@ func (s *SignupView) Layout() string {
 	return "./templates/layouts/index.html"
 }
 
-func (s *SignupView) OnEvent(ctx glv.Context) error {
+func (s *SignupView) OnLiveEvent(ctx glv.Context) error {
 	switch ctx.Event().ID {
 	case "auth/signup":
 		return s.Signup(ctx)

@@ -21,7 +21,7 @@ func (f *ForgotView) Layout() string {
 	return "./templates/layouts/index.html"
 }
 
-func (f *ForgotView) OnEvent(ctx glv.Context) error {
+func (f *ForgotView) OnLiveEvent(ctx glv.Context) error {
 	switch ctx.Event().ID {
 	case "account/forgot":
 		return f.SendRecovery(ctx)

@@ -22,7 +22,7 @@ func (s *SettingsView) Layout() string {
 	return "./templates/layouts/app.html"
 }
 
-func (s *SettingsView) OnEvent(ctx glv.Context) error {
+func (s *SettingsView) OnLiveEvent(ctx glv.Context) error {
 	ctx.DOM().RemoveClass("#profile-loading", "is-hidden")
 	ctx.DOM().SetAttributes("#profile_inputs", glv.M{"disabled": "disabled"})
 	defer func() {
