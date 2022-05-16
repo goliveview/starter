@@ -2,7 +2,7 @@ module goliveview-starter
 
 go 1.18
 
-replace github.com/goliveview/controller => ../controller
+// replace github.com/goliveview/controller => ../controller
 
 // replace github.com/adnaan/authn => ../../authn
 
@@ -10,7 +10,7 @@ require (
 	github.com/adnaan/authn v0.0.4
 	github.com/davecgh/go-spew v1.1.1
 	github.com/go-chi/chi v1.5.4
-	github.com/goliveview/controller v0.0.10
+	github.com/goliveview/controller v0.0.11
 	github.com/imdario/mergo v0.3.12 // indirect
 	github.com/joho/godotenv v1.4.0
 	github.com/jordan-wright/email v4.0.1-0.20210109023952-943e75fe5223+incompatible
@@ -24,7 +24,6 @@ require (
 
 require (
 	ariga.io/atlas v0.4.0 // indirect
-	cloud.google.com/go v0.100.2 // indirect
 	cloud.google.com/go/compute v1.6.1 // indirect
 	entgo.io/ent v0.10.2-0.20220502113020-4ac82f5bb3f0 // indirect
 	github.com/Masterminds/goutils v1.1.1 // indirect
@@ -59,7 +58,6 @@ require (
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
-	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/ssor/bom v0.0.0-20170718123548-6386211fdfcf // indirect
 	github.com/vanng822/css v1.0.1 // indirect
 	github.com/vanng822/go-premailer v1.20.1 // indirect
